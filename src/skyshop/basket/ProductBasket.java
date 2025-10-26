@@ -1,6 +1,6 @@
-package org.skypro.skyshop.basket;
+package skyshop.basket;
 
-import org.skypro.skyshop.product.Product;
+import skyshop.product.Product;
 public class ProductBasket {
     private Product[] products; // Массив для хранения продуктов
     private int productCount;   // Счетчик добавленных продуктов

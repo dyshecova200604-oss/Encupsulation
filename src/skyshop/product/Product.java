@@ -1,4 +1,4 @@
-package org.skypro.skyshop.product;
+package skyshop.product;
 
 public class Product {
     // Поля класса с модификатором private

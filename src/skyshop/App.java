@@ -1,6 +1,6 @@
-package org.skypro.skyshop;
-import org.skypro.skyshop.product.Product;
-import org.skypro.skyshop.basket.ProductBasket;
+package skyshop;
+import skyshop.product.Product;
+import skyshop.basket.ProductBasket;
 public class App {
     public static void main(String[] args) {
         ProductBasket basket = new ProductBasket();
