@@ -1,61 +1,45 @@
 package skyshop.basket;
 
+import org.skypro.skyshop.product.DiscountProduct;
 import skyshop.product.Product;
-public class ProductBasket {
-    private Product[] products; // Массив для хранения продуктов
-    private int productCount;   // Счетчик добавленных продуктов
+import java.util.ArrayList;
+import java.util.List;
 
-    // Конструктор, инициализирующий массив
+public  class ProductBasket {
+    private List<Product> products;
+
     public ProductBasket() {
-        this.products = new Product[10]; // Начальный размер массива
-        this.productCount = 0;
+        this.products = new ArrayList<>();
     }
-
-    // Метод добавления продукта в корзину
-    public void addProduct(Product product) {
-        if (productCount < products.length) {
-            products[productCount] = product;
-            productCount++;
+    public void addProduct(DiscountProduct product) {
+        if (product != null) {
+            products.add(product);
+            System.out.println(product.getName() + " добавлен в корзину.");
         } else {
-            System.out.println("Корзина полна, не удалось добавить продукт: " + product.getName());
+            System.out.println("Не удалось добавить продукт: продукт не может быть null.");
         }
     }
 
-    // Метод получения общей стоимости корзины
-    public int getTotalPrice() {
-        int totalPrice = 0;
-        for (int i = 0; i < productCount; i++) {
-            totalPrice += products[i].getPrice();
-        }
-        return totalPrice;
-    }
-
-    // Метод, который печатает содержимое корзины
-    public void printBasketContents() {
-        if (productCount == 0) {
-            System.out.println("В корзине пусто.");
-        } else {
-            for (int i = 0; i < productCount; i++) {
-                System.out.println(products[i].getName() + ": " + products[i].getPrice());
-            }
-            System.out.println("Итого: " + getTotalPrice());
-        }
-    }
-
-    // Метод проверки наличия продукта в корзине по имени
-    public boolean containsProduct(String name) {
-        for (int i = 0; i < productCount; i++) {
-            if (products[i].getName().equals(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    // Метод очистки корзины
     public void clearBasket() {
-        products = new Product[10]; // Сбрасываем массив
-        productCount = 0;           // Обнуляем счетчик
-        System.out.println("Корзина очищена.");
+        products.clear();
     }
-}
+
+    public boolean containsProduct(String productName) {
+        return products.stream().anyMatch(product -> product.getName().equalsIgnoreCase(productName));
+    }
+
+    public void printBasketContents() {
+        if (products.isEmpty()) {
+            System.out.println("Корзина пуста.");
+        } else {
+            System.out.println("Содержимое корзины:");
+            for (Product product : products) {
+                System.out.println(product.toString());
+            }
+        }
+    }
+
+        public double getTotalPrice () {
+            return products.stream().mapToDouble(Product::getPrice).sum();
+        }
+    }
