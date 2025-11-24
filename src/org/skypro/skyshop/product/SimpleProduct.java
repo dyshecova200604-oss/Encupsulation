@@ -1,15 +1,13 @@
 package org.skypro.skyshop.product;
-import java.util.List;
-public class SimpleProduct extends Product {
-    private double cost;
-
-    public SimpleProduct(String name, int i) {
+import skyshop.search.Searchable;
+public class SimpleProduct extends Product implements Searchable {
+    private final double cost;
+    public SimpleProduct(String name, double cost) {
         super(name);
         if (cost < 0) {
             throw new IllegalArgumentException("Cost cannot be negative");
         }
         this.cost = cost;
-
     }
 
     @Override
@@ -19,8 +17,9 @@ public class SimpleProduct extends Product {
 
     @Override
     public String toString() {
-        return name + " : " + cost;
+        return super.getName() + " : " + cost; // Используем метод getName() из родительского класса
     }
+
     @Override
     public double getPrice() {
         return cost;
@@ -29,5 +28,15 @@ public class SimpleProduct extends Product {
     @Override
     public double getCost() {
         return cost;
+    }
+
+    @Override
+    public String getSearchTerm() {
+        return getName();
+    }
+
+    @Override
+    public String getType() {
+        return toString();
     }
 }
