@@ -1,39 +1,68 @@
+import org.skypro.skyshop.product.FixPriceProduct;
+import org.skypro.skyshop.product.SimpleProduct;
+import org.skypro.skyshop.search.Article;
+import skyshop.search.*;
 
-  import org.skypro.skyshop.product.DiscountProduct;
-  import org.skypro.skyshop.product.FixPriceProduct;
-  import org.skypro.skyshop.product.SimpleProduct;
-  import skyshop.product.Product;
-  import skyshop.basket.ProductBasket;
+import java.util.List;
 
-        public class Main {
-            public static void main(String[] args) {
-                ProductBasket basket = new ProductBasket();
+public class Main {
+    public static void main(String[] args) {
+        // Создадим движок с вместимостью 20
+        SearchEngine engine = new SearchEngine(20);
 
-                // Создаем несколько продуктов
-                SimpleProduct product1 = new SimpleProduct("Яблоко", 100);
-                DiscountProduct product2 = new DiscountProduct("Банан", 150, 20); // 20% скидка
-                FixPriceProduct product3 = new FixPriceProduct("Апельсин", 200);
+        // Создаем продукты
+        SimpleProduct apple = new SimpleProduct("Яблоко", 100);
+        DiscountProduct banana = new DiscountProduct("Банан", 150, 20); // цена со скидкой 120
+        FixPriceProduct orange = new FixPriceProduct("Апельсин", 200);
+        SimpleProduct laptop = new SimpleProduct("Ноутбук", 50000);
+        SimpleProduct phone = new SimpleProduct("iPhone 15", 90000);
 
-                // Добавляем продукты в корзину
-                basket.addProduct(product1);
-                basket.addProduct(product2);
-                basket.addProduct(product3);
+        // Добавляем все продукты в SearchEngine
+        engine.add(apple);
+        engine.add(banana);
+        engine.add(orange);
+        engine.add(laptop);
+        engine.add(phone);
 
-                // Печатаем содержимое корзины
-                basket.printBasketContents();
+        // Создаем статьи
+        Article a1 = new Article("Новый iPhone 15", "В обзоре сравним камеру и производительность iPhone 15.");
+        Article a2 = new Article("Гайд по выбору бананов", "Как выбрать спелые бананы и хранить их правильно.");
+        Article a3 = new Article("Скидки на электронику", "Большая распродажа ноутбуков и телевизоров.");
+        Article a4 = new Article("Рецепты с яблоками", "Пироги, салаты и смузи с яблоками.");
 
-                // Проверяем наличие продукта в корзине
-                String productToCheck = "Банан";
-                if (basket.containsProduct(productToCheck)) {
-                    System.out.println(productToCheck + " есть в корзине.");
-                } else {
-                    System.out.println(productToCheck + " нет в корзине.");
-                }
+        // Добавляем статьи
+        engine.add(a1);
+        engine.add(a2);
+        engine.add(a3);
+        engine.add(a4);
 
-                // Очищаем корзину
-                basket.clearBasket();
+        // Демонстрация поиска
+        performSearch(engine, "банан");
+        performSearch(engine, "скидки");
+        performSearch(engine, "iphone");
+        performSearch(engine, "яблоко");
+        performSearch(engine, "телевизор");
+        performSearch(engine, "несуществующий_термин");
+    }
 
-                // Печатаем содержимое корзины после очистки
-                basket.printBasketContents();
-            }
+    private static void performSearch(SearchEngine engine, String keyword) {
+        System.out.println();
+        System.out.println("Поиск по ключевому слову:" + keyword );
+
+        List<Searchable> results = engine.search(keyword);
+
+        // Проверяем количество найденных элементов
+        if (results.isEmpty()) {
+            System.out.println("Ничего не найдено.");
+            return;
         }
+
+        // Выводим найденные элементы
+        System.out.println("Найденные элементы (до 5):");
+        for (int i = 0; i < results.size(); i++) {
+            Searchable s = results.get(i);
+            System.out.println((i + 1) + ". " + s.getStringRepresentation() + " -> searchTerm: " + s.getSearchTerm());
+            if (i == 4) break; // Ограничиваем вывод до 5 элементов
+        }
+    }
+}

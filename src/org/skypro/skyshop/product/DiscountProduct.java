@@ -1,13 +1,14 @@
 package org.skypro.skyshop.product;
 
-public class DiscountProduct extends Product {
-    private String name;
-    private double originalPrice;
-    private double discountPercentage; // Процент скидки
+import skyshop.search.Searchable;
 
-    public DiscountProduct(String name, double originalPrice, double discountPercentage) {
-        super(name);
-        this.name = name;
+public class DiscountProduct extends Product implements Searchable {
+
+    private final double originalPrice;
+    private final int discountPercentage; // Процент скидки 0..100
+
+    public DiscountProduct(String name, double originalPrice, int discountPercentage) {
+        super(name); // Оставляем вызов родительского конструктора как у вас был
         if (originalPrice < 0) {
             throw new IllegalArgumentException("Original price cannot be negative");
         }
@@ -17,30 +18,44 @@ public class DiscountProduct extends Product {
         this.originalPrice = originalPrice;
         this.discountPercentage = discountPercentage;
     }
-    // Метод для расчета цены со скидкой
 
+    /**
+     * Цена товара со скидкой.
+     */
     public double getPrice() {
-        return originalPrice * (1 - discountPercentage / 100);
+        return originalPrice * (1 - discountPercentage / 100.0);
     }
 
 
-    @Override
     public boolean isSpecial() {
-        return false;
+        return discountPercentage > 0;
     }
 
     @Override
     public double getCost() {
-        return 0;
+        return getPrice();
     }
+
 
     @Override
     public String toString() {
-        return super.toString() + " : Оригинальная цена " + originalPrice + ", Скидка " + discountPercentage + "%, Цена со скидкой " + getPrice();
-
-        }
-
-        public double getDiscountPercentage() {
-            return discountPercentage; // Метод для получения процента скидки
-        }
+        return super.toString()
+                + " : Оригинальная цена " + String.format("%.2f", originalPrice)
+                + ", Скидка " + discountPercentage + "%, Цена со скидкой " + String.format("%.2f", getPrice());
     }
+
+
+    public double getDiscountRate() {
+        return discountPercentage / 100.0;
+    }
+
+    @Override
+    public String getSearchTerm() {
+        return "";
+    }
+
+    @Override
+    public String getType() {
+        return "";
+    }
+}
