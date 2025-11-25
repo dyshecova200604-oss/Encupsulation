@@ -1,3 +1,4 @@
+import org.skypro.skyshop.product.DiscountProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Article;
@@ -7,7 +8,6 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // Создадим движок с вместимостью 20
         SearchEngine engine = new SearchEngine(20);
 
         // Создаем продукты
@@ -19,7 +19,6 @@ public class Main {
 
         // Добавляем все продукты в SearchEngine
         engine.add(apple);
-        engine.add(banana);
         engine.add(orange);
         engine.add(laptop);
         engine.add(phone);

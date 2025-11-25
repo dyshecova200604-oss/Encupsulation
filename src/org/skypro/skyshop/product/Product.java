@@ -1,6 +1,8 @@
 package org.skypro.skyshop.product;
 
-public abstract class Product {
+import skyshop.search.Searchable;
+
+public abstract class Product implements Searchable {
     private final String name; // Поле для хранения имени продукта
 
     public Product(String name) {
@@ -11,9 +13,12 @@ public abstract class Product {
         return name;
     }
 
-    public abstract boolean isSpecial(); // Абстрактный метод для проверки, является ли продукт специальным
 
-    public abstract double getCost(); // Абстрактный метод для получения стоимости продукта
+    public String getSearchTerm() {
+        return "";
+    }
+
+    public abstract boolean isSpecial();
 
     public abstract double getPrice(); // Абстрактный метод для получения цены продукта
 }
