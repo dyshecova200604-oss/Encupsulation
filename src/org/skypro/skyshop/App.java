@@ -14,7 +14,6 @@ public class App {
     public static void main(String[] args) throws org.skypro.skyshop.BestResultNotFound {
 
         ProductBasket basket = new ProductBasket();
-
         DiscountedProduct product1 = new DiscountedProduct("Банан", 500, 10);
         SimpleProduct product2 = new SimpleProduct("Яблоко", 100);
         FixPriceProduct product3 = new FixPriceProduct("Апельсин", 200);

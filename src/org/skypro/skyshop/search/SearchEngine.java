@@ -36,7 +36,7 @@ public class SearchEngine {
                 maxScore = score;
             }
         }
-        checkBestResultNotNull(best);
+         checkBestResultNotNull(best);
         return best;
     }
 
