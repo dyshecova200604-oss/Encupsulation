@@ -7,62 +7,93 @@ import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.search.Article;
 import org.skypro.skyshop.search.SearchEngine;
 
-public class Main {
-    public static void main(String[] args) {
-        // Создание корзины для товаров
+public class Main { // Изменено с App на Main
+    public static void main(String[] args) throws org.skypro.skyshop.BestResultNotFound {
+
         ProductBasket basket = new ProductBasket();
 
-        // Создание продуктов
         DiscountedProduct product1 = new DiscountedProduct("Банан", 500, 10);
         SimpleProduct product2 = new SimpleProduct("Яблоко", 100);
         FixPriceProduct product3 = new FixPriceProduct("Апельсин", 200);
         SimpleProduct product4 = new SimpleProduct("Ноутбук", 50000);
         DiscountedProduct product5 = new DiscountedProduct("Iphone 15", 90000, 20);
 
-        // Добавление продуктов в корзину
         try {
             basket.addProduct(product1);
             basket.addProduct(product2);
             basket.addProduct(product3);
             basket.addProduct(product4);
             basket.addProduct(product5);
+            basket.addProduct(new SimpleProduct("Чай", 500));
+            basket.addProduct(new DiscountedProduct("Чай", 300, 15));
         } catch (IllegalArgumentException e) {
-            System.out.println("Ошибка при добавлении товара: " + e.getMessage());
+            throw new IllegalArgumentException("Ошибка при добавлении товара");
         }
 
-        // Печать содержимого корзины
-        ProductBasket.printedBasket();
+        System.out.println();
+        basket.printBasket();
+        System.out.println();
 
-        // Проверка наличия товара в корзине
-        System.out.println("Наличие товара 'milk': " + basket.equalsProduct("milk"));
+        System.out.println(basket.equalsProduct("чай"));
+        System.out.println();
 
-        // Создание поискового движка
-        SearchEngine searchEngine = new SearchEngine(15);
 
-        // Добавление продуктов в поисковый движок
+        SearchEngine searchEngine = new SearchEngine();
+
         searchEngine.add(product1);
         searchEngine.add(product2);
         searchEngine.add(product3);
         searchEngine.add(product4);
+        searchEngine.add(product5);
 
-        // Создание статей
+
         Article article1 = new Article("Гайд по выбору бананов", "Как выбрать спелые бананы и хранить их правильно.");
         Article article2 = new Article("Рецепты с яблоками", "Пироги, салаты и смузи с яблоками.");
         Article article3 = new Article("Новый iPhone 15", "В обзоре сравним камеру и производительность iPhone 15.");
         Article article4 = new Article("Скидки на электронику", "Большая распродажа ноутбуков и телевизоров.");
-
-        // Добавление статей в поисковый движок
+        Article article5 = new Article("Кофе робуста", "Робуста");
         searchEngine.add(article1);
         searchEngine.add(article2);
         searchEngine.add(article3);
         searchEngine.add(article4);
+        searchEngine.add(article5);
 
-        // Поиск по запросу
-        String query = "кофе";
+        searchEngine.add(new Article("Чай зелёный", "Чай зелёный. Чай в пакетиках"));
+
+        System.out.println();
+        basket.removeProduct("Чaй");
+
+        System.out.println();
+        basket.printRemovedList();
+
+        System.out.println();
+        basket.printBasket();
+
+        System.out.println();
+
+        String query = "Чай";
+        System.out.println("Результаты поиска для запроса  + query + :");
+
+        System.out.println(searchEngine.search(query));
+
         try {
-            System.out.println("Лучший результат для запроса '" + query + "': " + searchEngine.bestResult(query));
+                System.out.println("Лучший результат для запроса  + query + :");
+            System.out.println(searchEngine.bestResult(query));
+
         } catch (org.skypro.skyshop.BestResultNotFound e) {
-            System.out.println("Подходящего товара не найдено: " + e.getMessage());
+            System.out.println("Подходящего товара нет");
+        }
+        System.out.println();
+
+        query = "кофе";
+        System.out.println("Результаты поиска для запроса  + query + :");
+        System.out.println(searchEngine.search(query));
+        try {
+            System.out.println("Лучший результат для запроса  + query + :");
+
+            System.out.println(searchEngine.bestResult(query));
+        } catch (org.skypro.skyshop.BestResultNotFound e) {
+            System.out.println("Подходящего товара не найдено");
         }
     }
 }

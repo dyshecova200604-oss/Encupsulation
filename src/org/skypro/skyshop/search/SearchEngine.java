@@ -1,20 +1,19 @@
 package org.skypro.skyshop.search;
 
 import org.skypro.skyshop.BestResultNotFound;
-
+import java.util.*;
+import java.util.stream.Collectors;
 public class SearchEngine {
-    private final Searchable[] searchables;
+    private final Set<Searchable> searchables;
 
-    public SearchEngine(int size) { searchables = new Searchable[size]; }
+    public SearchEngine() {
+        searchables = new HashSet<>();
+    }
 
     public void add(Searchable searchable) {
-        for (int i = 0; i < searchables.length; i++) {
-            if (searchables[i] == null) {
-                searchables[i] = searchable;
-                break;
-            }
-        }
+        searchables.add(searchable);
     }
+
     public int maxResult(String query, String str) {
         int count = 0;
         for ( int index = 0; (index = str.indexOf(query, index)) != -1; index += query.length()) {
@@ -23,28 +22,23 @@ public class SearchEngine {
         return count;
     }
 
-    public Searchable bestResult(String query) throws BestResultNotFound {
-        int maxScore = 0;
-        Searchable best = null;
-        for (Searchable searchable : searchables) {
-            if (searchable == null || !searchable.getSearchTerm().contains(query)) {
-                continue;
-            }
-            int score = maxResult(query, searchable.getSearchTerm());
-            if (score > maxScore) {
-                best = searchable;
-                maxScore = score;
-            }
+    public TreeSet<Searchable> search(String query){
+        TreeSet<Searchable> set = searchables.stream()
+                .filter(searchable -> searchable != null && searchable.getSearchTerm().contains(query))
+                .collect(Collectors.toCollection(() -> new TreeSet<>(new org.skypro.skyshop.search.SearchComparator())));
+        if (set.isEmpty()){
+            System.out.println("Поиск не дал результатов");
         }
+        return set;
+    }
 
-        checkBestResultNotNull(best);
+    public Searchable bestResult(String query) throws BestResultNotFound {
+        TreeSet<Searchable> results = search(query);
+
+        Searchable best = results.stream()
+                .filter(searchable -> searchable != null && searchable.getSearchTerm().contains(searchable.getName()))
+                .max(Comparator.comparingInt(searchable -> maxResult(query, searchable.getSearchTerm())))
+                .orElseThrow(() -> new BestResultNotFound("Ничего не найдено"));
         return best;
     }
-
-    private void checkBestResultNotNull(Searchable best) throws BestResultNotFound {
-        if (best == null){
-            throw new BestResultNotFound("Ничего не найдено");
-        }
-    }
-
 }

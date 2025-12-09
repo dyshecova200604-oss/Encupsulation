@@ -6,7 +6,6 @@ public class FixPriceProduct extends Product {
     public FixPriceProduct(String name, int i) {
         super(name);
     }
-
     public int getPrice() {
         return PRICE;
     }
