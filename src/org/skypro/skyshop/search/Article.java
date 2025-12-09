@@ -25,6 +25,11 @@ public class Article implements Searchable {
     }
 
     @Override
+    public String getStringRepresentation() {
+        return title + ": " + text;
+    }
+
+    @Override
     public String getType() {
         return "ARTICLE";
     }

@@ -11,14 +11,6 @@ public  class ProductBasket {
     public ProductBasket() {
         this.products = new ArrayList<>();
     }
-    public void addProduct(DiscountProduct product) {
-        if (product != null) {
-            products.add(product);
-            System.out.println(product.getName() + " добавлен в корзину.");
-        } else {
-            System.out.println("Не удалось добавить продукт: продукт не может быть null.");
-        }
-    }
 
     public void clearBasket() {
         products.clear();
@@ -46,5 +38,8 @@ public  class ProductBasket {
     }
 
     public void addProduct(FixPriceProduct orange) {
+    }
+
+    public void addProduct(DiscountProduct banana) {
     }
 }

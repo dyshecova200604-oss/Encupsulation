@@ -1,4 +1,3 @@
-
 package skyshop.product;
 import org.skypro.skyshop.product.DiscountProduct;
 import skyshop.search.Searchable;
@@ -39,4 +38,3 @@ public abstract class Product implements Searchable {
         return discountProduct.getPrice() * (1 - discountProduct.getDiscountRate()); // Пример
     }
 }
-
