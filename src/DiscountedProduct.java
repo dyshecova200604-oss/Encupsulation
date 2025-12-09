@@ -1,4 +1,5 @@
 package org.skypro.skyshop.product;
+
 public class DiscountedProduct extends Product{
 
     private final int price;
@@ -25,6 +26,7 @@ public class DiscountedProduct extends Product{
 
     public boolean isSpecial(){
         return true;
+
     }
     @Override
     public String toString() {

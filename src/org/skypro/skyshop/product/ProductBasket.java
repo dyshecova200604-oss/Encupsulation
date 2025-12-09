@@ -3,7 +3,6 @@ package org.skypro.skyshop.basket;
 import org.skypro.skyshop.product.Product;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ProductBasket {
     static Map<String, List<Product>> products = new HashMap<>();
@@ -11,15 +10,16 @@ public class ProductBasket {
     static int count;
 
     public static int sumBasket() {
-        int sum = products.values()
-                .stream()
-                .flatMap( Collection::stream )
-                .mapToInt(Product::getPrice)
-                .sum();
+        int sum = 0;
+        for (Map.Entry<String, List<Product>> entry: products.entrySet()) {
+            List<Product> list = entry.getValue();
+            for (Product product: list) {
+                if (product != null) {
+                    sum += product.getPrice();
+                }
+            }
+        }
         return sum;
-    }
-
-    public static void printedBasket() {
     }
 
     public void printBasket(){
@@ -29,18 +29,20 @@ public class ProductBasket {
             return;
         }
         System.out.println("Содержимое корзины:");
-        products.values().stream().forEach( System.out::println );
+        for (Map.Entry<String, List<Product>> entry: products.entrySet()) {
+            String name = entry.getKey();
+            List<Product> list = entry.getValue();
+            for (Product product: list) {
+                if (product != null) {
+                    System.out.println(product);
+                }
+                if (name != null && product.isSpecial()) {
+                    counter++;
+                }
+            }
+        }
         System.out.println("Итого: " + sumBasket());
-        System.out.println("Специальных товаров: " + getSpecialCount());
-    }
-
-    private int getSpecialCount(){
-        return products.values()
-                .stream()
-                .flatMap( Collection::stream )
-                .filter( Product::isSpecial )
-                .toList()
-                .size();
+        System.out.println("Специальных товаров: " + counter);
     }
 
     public void clearBasket() {
@@ -50,40 +52,56 @@ public class ProductBasket {
     }
 
     public boolean equalsProduct(String name) {
-        boolean isPresent = products.containsKey( name );
-        if (isPresent) {
-            System.out.println("Товар " + name + " есть в корзине");
-        } else {
-            System.out.println("Товар " + name + " не найден в корзине");
+        for (Map.Entry<String, List<Product>> entry: products.entrySet()){
+            String key = entry.getKey();
+            if (key.equals(name)) {
+                System.out.println("Товар " + name + " есть в корзине");
+                return true;
+            }
         }
-        return isPresent;
+        System.out.println("Товар " + name + " не найден в корзине");
+        return false;
     }
 
     public void addProduct(Product product) {
         products.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
-        System.out.println("Добавлен продукт: " + product.getName());
+        System.out.println("Добавлен продукт: " +
+                product.getName());
     }
 
-    public void removeProduct(String name) {
+
+    public LinkedList<Product> removeProduct(String name) {
         delProducts.clear();
         if (products.containsKey(name)) {
-            List<Product> list = products.get(name);
-            for (Product product : list) {
-                delProducts.add(product);
-                System.out.println("Удален продукт: " + product);
+            for (Map.Entry<String, List<Product>> entry: products.entrySet()){
+                String key = entry.getKey();
+                if (key.equals(name)) {
+                    List<Product> list = entry.getValue();
+                    for (Product product : list) {
+                        delProducts.add(product);
+                        System.out.println("Удален продукт: " + product);
+                    }
+                }
             }
             products.remove(name);
         } else {
             System.out.println("Товара " + name + " нет в корзине");
         }
+        return (LinkedList<Product>) delProducts;
     }
 
     public void printRemovedList(){
+        System.out.println("Удаленные товары:");
+        for (Product product : delProducts){
+            System.out.println(product);
+        }
         if (delProducts.isEmpty()) {
             System.out.println("Список пуст");
-            return;
         }
-        System.out.println("Удаленные товары:");
-        delProducts.forEach(System.out::println);
+    }
+
+    @Override
+    public String toString() {
+        return "ProductBasket{}";
     }
 }
