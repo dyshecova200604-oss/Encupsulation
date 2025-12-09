@@ -1,5 +1,5 @@
 package org.skypro.skyshop.search;
-
+import java.util.Objects;
 public class Article implements Searchable {
 
     private final String title;
@@ -24,12 +24,13 @@ public class Article implements Searchable {
 
     @Override
     public String getName() {
-        return "";
+        return this.title;
     }
 
     @Override
     public String toString() {
         return title + ": " +
                 text;
+
     }
 }

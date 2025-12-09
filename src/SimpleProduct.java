@@ -11,7 +11,6 @@ public class SimpleProduct extends Product {
         }
         this.price = price;
     }
-
     public int getPrice() {
         return price;
     }
@@ -21,5 +20,6 @@ public class SimpleProduct extends Product {
         return getName() +
                 ": " +
                 price;
+
     }
 }

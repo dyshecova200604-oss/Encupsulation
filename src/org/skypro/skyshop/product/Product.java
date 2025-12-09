@@ -1,7 +1,7 @@
 package org.skypro.skyshop.product;
 
 import org.skypro.skyshop.search.Searchable;
-
+import java.util.Objects;
 public class Product implements Searchable {
 
     private final String name;
@@ -16,6 +16,7 @@ public class Product implements Searchable {
 
     public boolean isSpecial(){
         return false;
+
     }
     public int getPrice() {
         return 0;
@@ -34,4 +35,5 @@ public class Product implements Searchable {
     public String getName() {
         return name;
     }
+
 }
