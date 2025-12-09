@@ -1,4 +1,5 @@
 package org.skypro.skyshop.product;
+
 public class DiscountedProduct extends Product{
 
     private final int price;
