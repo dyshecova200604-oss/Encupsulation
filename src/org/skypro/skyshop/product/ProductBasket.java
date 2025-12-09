@@ -99,7 +99,6 @@ public class ProductBasket {
             System.out.println("Список пуст");
         }
     }
-
     @Override
     public String toString() {
         return "ProductBasket{}";
