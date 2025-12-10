@@ -1,37 +1,22 @@
 package org.skypro.skyshop.product;
 
-public class SimpleProduct extends Product  {
-    private final double cost;
-    public SimpleProduct(String name, double cost) {
+public class SimpleProduct extends org.skypro.skyshop.product.Product {
+
+    final int price;
+    public SimpleProduct(String name, int price) {
         super(name);
-        if (cost < 0) {
-            throw new IllegalArgumentException("Cost cannot be negative");
+        if (price <= 0) {
+            throw new IllegalArgumentException("Цена должна быть больше 0");
         }
-        this.cost = cost;
+        this.price = price;
     }
-
-    @Override
-    public boolean isSpecial() {
-        return false;
+    public int getPrice() {
+        return price;
     }
-
     @Override
     public String toString() {
-        return super.getName() + " : " + cost; // Используем метод getName() из родительского класса
+        return getName() +
+                ": " +
+                price;
     }
-    @Override
-    public double getPrice() {
-        return cost;
-    }
-        public double getCost() {
-            return cost;
-        }
-        @Override
-        public String getSearchTerm() {
-            return getName();
-        }
-        @Override
-        public String getType() {
-            return toString();
-        }
-    }
+}
