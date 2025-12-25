@@ -1,39 +1,23 @@
 package org.skypro.skyshop.product;
 
-
 public class FixPriceProduct extends Product {
-    private final double fixedPrice;
-
-    public FixPriceProduct(String name, double fixedPrice) {
+    private static final double FIX_PRICE = 200;
+    public FixPriceProduct(String name) {
         super(name);
-
-        if (fixedPrice < 0) {
-            throw new IllegalArgumentException("Cost cannot be negative");
-        }
-        this.fixedPrice = fixedPrice;
-        // Инициализация переменной cost
     }
-       @Override
-        public String toString() {
-        return super.toString() + " : Фиксированная.fixedPrice = fixedPrice; цена " + fixedPrice; // Используем super.toString() для получения имени продукта
-
+    @Override
+    public double getPrice() {
+        return FIX_PRICE;
     }
-
 
     @Override
     public boolean isSpecial() {
-        return false;
+        return true;
     }
 
     @Override
-    public double getPrice() {
-return fixedPrice;
-
+    public String toString() {
+        return " " + name + "  : Фиксированная цена  " + FIX_PRICE + " " ;
     }
 
-
-    public String getType() {
-        return "";
-
-    }
 }
