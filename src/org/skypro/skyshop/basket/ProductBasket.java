@@ -1,95 +1,64 @@
-
 package org.skypro.skyshop.basket;
 
-import org.skypro.skyshop.product.DiscountedProduct;
-import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.Product;
-import org.skypro.skyshop.product.SimpleProduct;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ProductBasket {
-    static Map<String, List<Product>> products = new HashMap<>();
-    private static List<Product> delProducts = new LinkedList<>();
-    static int count;
+    private final Map<String, List<Product>> basket;
 
-    public static int sumBasket() {
-        int sum = products.values()
-                .stream()
-                .flatMap( Collection::stream )
-                .mapToInt(Product::getPrice)
-                .sum();
-        return sum;
-    }
-
-    public static void printBasket(){
-        int counter = 0;
-        if (sumBasket() == 0) {
-            System.out.println("Корзина пуста");
-            return;
-        }
-        System.out.println("Содержимое корзины:");
-        products.values().stream().forEach( System.out::println );
-        System.out.println("Итого: " + sumBasket());
-        System.out.println("Специальных товаров: " + getSpecialCount());
-    }
-
-    public static void printedBasket() {
-    }
-
-    private static int getSpecialCount(){
-        int counter = products.values()
-                .stream()
-                .flatMap( Collection::stream )
-                .filter( Product::isSpecial )
-                .collect( Collectors.toList())
-                .size();
-        return counter;
-    }
-
-    public void clearBasket() {
-        products.clear();
-        count = 0;
-        System.out.println("Корзина очищена");
-    }
-
-    public boolean equalsProduct(String name) {
-        boolean isPresent = products.containsKey( name );
-        if (isPresent) {
-            System.out.println("Товар " + name + " есть в корзине");
-        } else {
-            System.out.println("Товар " + name + " не найден в корзине");
-        }
-        return isPresent;
+    public ProductBasket() {
+        basket = new HashMap<>();
     }
 
     public void addProduct(Product product) {
-        products.computeIfAbsent(product.getName(), k -> new ArrayList<>()).add(product);
-        System.out.println("Добавлен продукт: " + product.getName());
+        basket.computeIfAbsent(product.getName(),name  -> new ArrayList<>()).add(product);
     }
 
-    public List<Product> removeProduct( String name) {
-        delProducts.clear();
-        if (products.containsKey(name)) {
-            List<Product> list = products.get(name);
-            for (Product product : list) {
-                delProducts.add(product);
-                System.out.println("Удален продукт: " + product);
-            }
-            products.remove(name);
-        } else {
-            System.out.println("Товара " + name + " нет в корзине");
+    public void printBasket() {
+        StringBuilder basketPrint = new StringBuilder();
+        basket.values().stream().flatMap(Collection::stream).forEach(product -> basketPrint.append(product).append("\n"));
+        int countSpecial = (int) basket.values().stream().flatMap(Collection::stream).filter(Product::isSpecial).count();
+
+        if (countSpecial != 0) {
+            basketPrint.append("Специальных товаров: ").append(countSpecial).append("\n");
         }
-        return delProducts;
+        if (basketPrint.isEmpty()) {
+            basketPrint.append("В корзине пусто");
+        }
+        System.out.println(basketPrint);
+        String totalPrice1 = String.format("%.2f", totalPrice());
+        System.out.println("Итого :  " + totalPrice1 + "  ");
     }
 
-    public void printRemovedList(){
-        if (delProducts.isEmpty()) {
-            System.out.println("Список пуст");
-            return;
-        }
-        System.out.println("Удаленные товары:");
-        delProducts.forEach(System.out::println);
+    public double totalPrice() {
+        return basket.values().stream().flatMap(Collection::stream).mapToDouble(Product::getPrice).sum();
+    }
+
+    public boolean isHasProduct(String name) {
+        if (basket.isEmpty()) return false;
+        return basket.containsKey(name);
+    }
+
+    public void deleteBasket() {
+        basket.clear();
+    }
+
+    public List removeProduct(String name) {
+        if (basket.isEmpty() || !basket.containsKey(name)) return new ArrayList<Product>();
+        return basket.remove(name);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductBasket that = (ProductBasket) o;
+        return Objects.equals(basket, that.basket);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(basket);
     }
 }
