@@ -1,22 +1,43 @@
 package org.skypro.skyshop.product;
 
-public class SimpleProduct extends org.skypro.skyshop.product.Product {
-    private final double price;
-    public SimpleProduct(String name, double price) {
+public class SimpleProduct extends Product {
+
+   private final int price;
+
+    public SimpleProduct(String name, int price) {
         super(name);
-        if (price < 1)
-            throw new IllegalArgumentException("Ошибка - цена меньше одного");
+
+        if (name == null || name.isBlank()) {
+            throw new IllegalArgumentException("Название продукта не может быть пустым");
+        }
+        if (price <= 0) {
+            throw new IllegalArgumentException("Цена должна быть больше 0");
+        }
         this.price = price;
+
     }
-    public double getPrice() {
-        return price;
+
+    public int getPrice() {
+        return (int) price;
     }
-    @Override
-    public boolean isSpecial() {
-        return false;
-    }
+
     @Override
     public String toString() {
-        return " " + getName() + "  " + "  " + getPrice() + " ";
+        return getName() +
+                ": " +
+                price;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof SimpleProduct)) return false;
+        SimpleProduct other = (SimpleProduct) obj;
+        return Double.compare(other.price, price) == 0 && getName().equals(other.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(getName(), price);
     }
 }
