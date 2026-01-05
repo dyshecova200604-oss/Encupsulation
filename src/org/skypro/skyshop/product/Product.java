@@ -2,13 +2,9 @@ package org.skypro.skyshop.product;
 
 import org.skypro.skyshop.search.Searchable;
 
-public class Product implements Searchable {
 
-
+public abstract class Product implements Searchable {
     private final String name;
-
-
-
     public Product(String name) {
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Название товара не может быть пустым");
@@ -17,11 +13,12 @@ public class Product implements Searchable {
     }
 
 
-    public boolean isSpecial(){
-        return false;
+    public abstract boolean isSpecial();
+
+    {
     }
-    public int getPrice() {
-        return 0;
+    public abstract int getPrice();
+    {
     }
     @Override
     public String getSearchTerm() {

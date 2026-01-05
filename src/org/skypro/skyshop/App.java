@@ -16,9 +16,19 @@ public class App {
         ProductBasket basket = new ProductBasket();
 
         DiscountedProduct product1 = new DiscountedProduct("Банан", 500, 10);
-        SimpleProduct product2 = new SimpleProduct("Яблоко", 100);
+        SimpleProduct product2 = new SimpleProduct("Яблоко", 100) {
+            @Override
+            public boolean isSpecial() {
+                return false;
+            }
+        };
         FixPriceProduct product3 = new FixPriceProduct("Апельсин", 200);
-        SimpleProduct product4 = new SimpleProduct("Ноутбук", 50000);
+        SimpleProduct product4 = new SimpleProduct("Ноутбук", 50000) {
+            @Override
+            public boolean isSpecial() {
+                return false;
+            }
+        };
         DiscountedProduct product5 = new DiscountedProduct("Iphone 15", 90000, 20);
 
         try {

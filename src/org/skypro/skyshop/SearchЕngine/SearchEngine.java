@@ -5,8 +5,8 @@ import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.Searchable;
 
 public class SearchEngine {
-    int count = 0;
-    // private int size;
+   private int count = 0;
+    private final int size = 0;
     Searchable[] searchables;
 
     public SearchEngine(int size) {
