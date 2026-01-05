@@ -1,14 +1,9 @@
-package org.skypro.skyshop;
-
 import org.skypro.skyshop.basket.ProductBasket;
 import org.skypro.skyshop.product.DiscountedProduct;
 import org.skypro.skyshop.product.FixPriceProduct;
 import org.skypro.skyshop.product.SimpleProduct;
 import org.skypro.skyshop.Articles.Article;
 import org.skypro.skyshop.SearchЕngine.SearchEngine;
-import org.skypro.skyshop.search.Searchable;
-
-import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) throws org.skypro.skyshop.search.BestResultNotFound {
@@ -41,13 +36,7 @@ public class App {
             System.out.println("Ошибка при добавлении товара:"+ e.getMessage());
         }
 
-        ProductBasket.printedBasket();
-
         System.out.println(basket.equalsProduct("milk"));
-
-
-        ProductBasket.printedBasket();
-
 
         SearchEngine searchEngine = new SearchEngine(15);
 

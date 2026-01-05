@@ -3,14 +3,14 @@ package org.skypro.skyshop.basket;
 import org.skypro.skyshop.product.Product;
 
 public class ProductBasket {
-    static Product[] products = new Product[5];
+   Product[] products = new Product[5];
     private int count;
 
-    public boolean findProduct() {
+    public boolean canAddMoreProducts () {
         return count < products.length;
     }
 
-    public static int sumBasket() {
+    public int sumBasket() {
         int sum = 0;
         for (Product product : products) {
             if (product != null) {
@@ -20,7 +20,7 @@ public class ProductBasket {
         return sum;
     }
 
-    public static void printedBasket() {
+    public void printedBasket() {
         int counter = 0;
         if (0 == sumBasket()) {
             System.out.println("Корзина пуста");
@@ -55,7 +55,7 @@ public class ProductBasket {
     }
 
     public void addProduct(Product product) {
-        if (findProduct()) {
+        if (canAddMoreProducts ()) {
             products[count++] = product;
             System.out.println("Добавлен продукт: " +
                     product.getName());
@@ -63,11 +63,6 @@ public class ProductBasket {
             System.out.println("Невозможно добавить продукт " +
                     product.getName() + ". Корзина переполнена");
         }
-    }
-
-    @Override
-    public String toString() {
-        return "";
     }
 }
 
