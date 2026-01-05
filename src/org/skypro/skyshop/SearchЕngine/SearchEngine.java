@@ -5,7 +5,7 @@ import org.skypro.skyshop.search.BestResultNotFound;
 import org.skypro.skyshop.search.Searchable;
 
 public class SearchEngine {
-   private int count = 0;
+   private final int count = 0;
     private final int size = 0;
     Searchable[] searchables;
 
@@ -17,7 +17,7 @@ public class SearchEngine {
             System.out.println("Добавить объект невозможно!");
         }
         searchables[count] = searchable;
-        count++;
+        int i = count;
     }
     public Searchable[] search(String searchTerm) {
         int countResalt = 0;

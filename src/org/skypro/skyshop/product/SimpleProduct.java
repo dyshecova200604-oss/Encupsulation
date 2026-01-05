@@ -1,10 +1,8 @@
 package org.skypro.skyshop.product;
 
-public abstract class SimpleProduct extends Product {
-
-   private final int price;
-
-    public SimpleProduct(String name, int price) {
+public class SimpleProduct extends Product {
+   private final double price;
+   public SimpleProduct(String name, double price) {
         super(name);
 
         if (name == null || name.isBlank()) {
@@ -15,6 +13,11 @@ public abstract class SimpleProduct extends Product {
         }
         this.price = price;
 
+    }
+
+    @Override
+    public boolean isSpecial() {
+        return false;
     }
 
     public int getPrice() {
